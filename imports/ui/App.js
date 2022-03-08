@@ -1,17 +1,16 @@
 import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
-import { TasksCollection } from "../db/TasksCollection";
+import { MessagesCollection } from "../db/MessagesCollection";
 import { Tracker } from "meteor/tracker";
 import { ReactiveDict } from "meteor/reactive-dict";
 import "./App.html";
 import "./Login.js";
 import "./Message.js";
 
-const HIDE_COMPLETED_STRING = "hideCompleted";
 const IS_LOADING_STRING = "isLoading";
 
 const getUser = () => Meteor.user();
-const isUserLogged = () => !!getUser(); //getUser() = false
+const isUserLogged = () => !!getUser(); //getUser() = return false
 
 Template.mainContainer.onCreated(function mainContainerOnCreated() {
   this.state = new ReactiveDict();
