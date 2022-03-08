@@ -1,0 +1,33 @@
+<body>
+  {{> mainContainer}}
+</body>
+
+<template name="mainContainer">
+  <div class="app">
+    <header>
+      <div class="app-bar">
+        <div class="app-header">
+          <h1>📝️ Chatroom</h1>
+        </div>
+      </div>
+    </header>
+    <div class="main">
+      {{#if isUserLogged}}
+      <div class="user">{{getUser.username}} 🚪</div>
+      {{#if isLoading}}
+      <div class="loading">loading...</div>
+      {{/if}}
+      <ul class="messages">
+        {{#each messages}} {{> message}} {{/each}}
+      </ul>
+      {{> new-message }} {{else}} {{> login }} {{/if}}
+    </div>
+  </div>
+</template>
+
+<template name="new-message">
+  <form class="message-form">
+    <input type="text" name="text" placeholder="Type you message here" />
+    <button type="submit">Send</button>
+  </form>
+</template>
