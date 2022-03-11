@@ -1,0 +1,31 @@
+<body>
+  {{> mainContainer }}
+</body>
+
+<template name="mainContainer">
+  <div class="app">
+    <header>
+      <div class="app-bar">
+        <div class="app-header">
+          <h1>📝️ Chatroom</h1>
+        </div>
+      </div>
+    </header>
+    <div class="main">
+      {{#if isUserLogged}}
+      <button id="addRoom">Add room</button>
+      <div class="user">{{getUser.username}}🚪</div>
+      <ul>
+        {{#each rooms}} {{> room}} {{/each}}
+      </ul>
+      {{> form }} {{else}} {{> login }} {{/if}}
+    </div>
+  </div>
+</template>
+
+<template name="form">
+  <form class="message-form">
+    <input type="text" name="text" placeholder="Type your message here" />
+    <button type="submit">Send</button>
+  </form>
+</template>
