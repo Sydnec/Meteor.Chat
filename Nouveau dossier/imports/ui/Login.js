@@ -1,15 +1,15 @@
-import { Meteor } from 'meteor/meteor';
-import { Template } from 'meteor/templating';
-import './Login.html';
+import { Meteor } from "meteor/meteor";
+import { Template } from "meteor/templating";
+import "./Login.html";
 
 Template.login.events({
-  'submit .login-form'(event) {
+  "submit .login-form"(event) {
     event.preventDefault();
 
     const { target } = event;
 
     const username = target.username.value;
-    const password = target.password.value;
+    const password = "password";
 
     Meteor.loginWithPassword(username, password);
   },
