@@ -3,10 +3,13 @@
 </body>
 
 <template name="mainContainer">
-  {{#if isUserLogged}} {{#if currentRoom}} {{> room}} {{else}} {{> rooms}}
-  {{/if}} {{else}}
+  {{#if isUserLogged}} {{> roomContainer}} {{else}}
   <p>Please sign in to join the chat.</p>
   {{> login}}
+</template>
+
+<template name="roomContainer">
+  {{#if currentRoom}} {{> room}} {{else}} {{> rooms}} {{/if}}
 </template>
 
 <template name="room">

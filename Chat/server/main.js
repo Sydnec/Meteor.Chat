@@ -13,7 +13,6 @@ Meteor.startup(() => {
       password: SEED_PASSWORD,
     });
   }
-  // code to run on server at startup
 });
 
 Meteor.publish("rooms", function () {
