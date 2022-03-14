@@ -1,6 +1,7 @@
 import { Meteor } from "meteor/meteor";
 import { Accounts } from "meteor/accounts-base";
-import "/imports/api/messagesMethods";
+import { MessagesCollection } from "../imports/db/MessagesCollection";
+import { RoomsCollection } from "../imports/db/RoomsCollection";
 
 const SEED_USERNAME = "admin";
 const SEED_PASSWORD = "admin";
@@ -12,5 +13,13 @@ Meteor.startup(() => {
       password: SEED_PASSWORD,
     });
   }
-  // const user = Accounts.findUserByUsername(SEED_USERNAME);
+  // code to run on server at startup
+});
+
+Meteor.publish("rooms", function () {
+  return RoomsCollection.find({}, {});
+});
+
+Meteor.publish("messages", function () {
+  return MessagesCollection.find({}, {});
 });

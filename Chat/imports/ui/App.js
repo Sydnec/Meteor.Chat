@@ -1,62 +1,60 @@
 import { Template } from "meteor/templating";
-import { MessagesCollection } from "../db/MessagesCollection";
-import { RoomsCollection } from "../db/RoomsCollection";
-import { ReactiveDict } from "meteor/reactive-dict";
-import "./App.html";
-import "./Message.js";
+
 import "./Login.js";
+import "./App.html";
 
 const getUser = () => Meteor.user();
 const isUserLogged = () => !!getUser();
 
-Template.mainContainer.onCreated(function mainContainerOnCreated() {
-  this.state = new ReactiveDict();
-});
-
-Template.mainContainer.events({
-  "click .user"() {
-    Meteor.logout();
-  },
-  "click #addRoom": function () {
-    var roomName =
-      window.prompt("Name the room", "My room") || "Anonymous Room";
-    if (roomName) {
-      Rooms.insert({ name: roomName });
-    }
-  },
-});
-
 Template.mainContainer.helpers({
-  messages() {
-    if (!isUserLogged()) {
-      return [];
-    }
-    return MessagesCollection.find({}, { sort: { sentAt: 1 } });
+  currentRoom() {
+    // return Session.get("room") || false;
   },
   rooms() {
     if (!isUserLogged()) {
       return [];
     }
-    return RoomsCollection.find({}, {});
+    return RoomsCollection.find({});
+  },
+  messages() {
+    if (!isUserLogged()) {
+      return [];
+    }
+    return MessagesCollection.find({ room: currentRoom() });
+  },
+  authorClass() {
+    if (/* auteur du message = moimême */ 1 == getUser().username) {
+      return " mine";
+    } else {
+      return "";
+    }
   },
   isUserLogged() {
     return isUserLogged();
   },
-  getUser() {
-    return getUser();
+});
+
+Template.rooms.helpers({
+  availableRooms() {
+    return RoomsCollection.find({});
   },
 });
 
-Template.form.events({
-  "submit .message-form"(event) {
-    // Prevent default browser form submit
-    event.preventDefault();
-    // Get value from form element
-    const target = event.target;
-    const text = target.text.value;
-    // Insert a task into the collection
-    Meteor.call("messages.insert", text);
-    // Clear form
-    target.text.value = "";
+Template.roomItem.events({
+  "click .join": function () {
+    var name;
+    if (currentRoom() === undefined) {
+      name = window.prompt("Your name", "Guest") || "Anonymous";
+      Session.set("name", name);
+    }
+    Session.set("room", this._id);
+  },
+  "click .delete": function () {
+    if (
+      !window.confirm("Remove this room?", "Do you really want to remove it ?")
+    ) {
+      return;
+    }
+    RoomsCollection.remove({ _id: this._id });
   },
 });
