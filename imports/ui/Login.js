@@ -1,19 +1,21 @@
 import { Meteor } from "meteor/meteor";
+import { Accounts } from "meteor/accounts-base";
 import { Template } from "meteor/templating";
-
 import "./Login.html";
 
 Template.login.events({
-  "submit .login-form"(e) {
-    e.preventDefault();
-
-    const target = e.target;
-
+  "submit .login-form"(event) {
+    event.preventDefault();
+    const { target } = event;
     const username = target.username.value;
     const password = "password";
 
-    console.log(username, password);
-    // console.log(Meteor.users.findOne({ username: username }));
-    // Meteor.loginWithPassword(username, password);
+    if (Meteor.users.findOne({ username: username }) === undefined) {
+      Accounts.createUser({
+        username: username,
+        password: password,
+      });
+    }
+    Meteor.loginWithPassword(username, password);
   },
 });

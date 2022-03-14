@@ -1,6 +1,6 @@
 import { Meteor } from "meteor/meteor";
-import { MessagesCollection } from "/imports/db/MessagesCollection";
+import { MessagesCollection } from "../db/MessagesCollection";
 
-Meteor.publish("messages", function () {
-  return MessagesCollection.find({}, {});
+Meteor.publish("messages", function publishMessages() {
+  return MessagesCollection.find({});
 });

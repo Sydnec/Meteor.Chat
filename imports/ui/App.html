@@ -1,53 +1,21 @@
 <body>
-  {{> mainContainer }}
+  {{> mainContainer}}
 </body>
 
 <template name="mainContainer">
-  {{#if isUserLogged}}
-  <h1>SALUT</h1>
-  <div class="user">{{getUser.username}} 🚪</div>
-  {{> roomContainer}} {{else}}
-  <p>Please sign in to join the chat.</p>
-  {{> login}} {{/if}}
-</template>
-
-<template name="roomContainer">
-  {{#if currentRoom}} {{> room}} {{else}} {{> rooms}} {{/if}}
-</template>
-
-<template name="room">
-  <div class="room">
-    <h2>Room &quot;{{roomName}}&quot;</h2>
-    <ul id="messages">
-      {{#each messages}}
-      <li>
-        <span class="author{{authorClass}}">{{author}} [{{sentAt}}] :</span>
-        {{text}}
-      </li>
-      {{/each}}
-    </ul>
-    <form>
-      <label for="msg">Message: </label>
-      <input type="text" name="text" placeholder="Type your message here" />
-      <button type="submit">&rArr; Send</button>
-      <button type="button" id="leave">Leave</button>
-    </form>
+  <div class="app">
+    <header>
+      <div class="app-bar">
+        <div class="app-header">
+          <h1>📝️ Chatroom</h1>
+        </div>
+      </div>
+    </header>
+    {{#if isUserLogged}}
+    <div class="user">{{getUser.username}} : Log out🚪</div>
+    {{/if}}
+    <div class="main">
+      {{#if isUserLogged}} {{> roomMain }} {{else}} {{> login }} {{/if}}
+    </div>
   </div>
-</template>
-
-<template name="rooms">
-  <div class="roomList">
-    <h2>Chat rooms</h2>
-    <p><button type="button" id="addRoom">Add new room</button></p>
-    <ul>
-      {{#each availableRooms}} {{> roomItem}} {{/each}}
-    </ul>
-  </div>
-</template>
-
-<template name="roomItem">
-  <li class="roomItem">
-    {{name}} <button class="join">Join the room !</button>
-    <button class="delete">Delete</button>
-  </li>
 </template>

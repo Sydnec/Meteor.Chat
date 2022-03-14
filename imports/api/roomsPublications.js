@@ -1,6 +1,6 @@
 import { Meteor } from "meteor/meteor";
-import { RoomsCollection } from "/imports/db/MessagesCollection";
+import { RoomsCollection } from "../db/RoomsCollection";
 
-Meteor.publish("rooms", function () {
-  return RoomsCollection.find({}, {});
+Meteor.publish("rooms", function publishRooms() {
+  return RoomsCollection.find({});
 });

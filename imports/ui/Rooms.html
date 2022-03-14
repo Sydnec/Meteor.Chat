@@ -1,0 +1,47 @@
+<template name="roomItem">
+  <li>
+    <div class="roomItem">
+      <p>{{name}}</p>
+      <button class="join">Join</button>
+      <button class="delete">Delete</button>
+    </div>
+  </li>
+</template>
+
+<template name="roomMain">
+  {{#if currentRoom}} {{> roomScreen}} {{else}} {{> roomList}} {{/if}}
+</template>
+
+<template name="roomList">
+  <div class="roomList">
+    <h2>Chat rooms</h2>
+    <p><button type="button" id="addRoom">New room</button></p>
+    <ul>
+      {{#each availableRooms}} {{> roomItem}} {{/each}}
+    </ul>
+  </div>
+</template>
+
+<template name="roomScreen">
+  <div class="roomScreen">
+    <div id="message-container">
+      <ul id="messages">
+        {{#each messages}}
+        <li>
+          <div class="author{{authorClass}}">
+            <p class="message-author">{{author}}</p>
+            <p class="message-timestamp">{{timestamp}}</p>
+            <p class="message-text">{{text}}</p>
+          </div>
+        </li>
+        {{/each}}
+      </ul>
+    </div>
+    <form class="message-form">
+      <label for="msg">Message: </label>
+      <input type="text" name="text" id="text" />
+      <button type="submit" id="send">Send</button>
+      <button type="button" id="leave">Leave</button>
+    </form>
+  </div>
+</template>
