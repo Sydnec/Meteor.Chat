@@ -12,6 +12,8 @@ Template.login.events({
     const username = target.username.value;
     const password = "password";
 
-    Meteor.loginWithPassword(username, password);
+    console.log(username, password);
+    // console.log(Meteor.users.findOne({ username: username }));
+    // Meteor.loginWithPassword(username, password);
   },
 });

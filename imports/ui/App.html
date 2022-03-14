@@ -4,10 +4,11 @@
 
 <template name="mainContainer">
   {{#if isUserLogged}}
+  <h1>SALUT</h1>
   <div class="user">{{getUser.username}} 🚪</div>
   {{> roomContainer}} {{else}}
   <p>Please sign in to join the chat.</p>
-  {{> login}}
+  {{> login}} {{/if}}
 </template>
 
 <template name="roomContainer">

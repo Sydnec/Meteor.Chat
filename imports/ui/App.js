@@ -1,16 +1,35 @@
 import { Template } from "meteor/templating";
+import { Meteor } from "meteor/meteor";
 import { RoomsCollection } from "../db/RoomsCollection";
 import { MessagesCollection } from "../db/MessagesCollection";
+import { ReactiveDict } from "meteor/reactive-dict";
 
 import "./Login.js";
 import "./App.html";
 
 const getUser = () => Meteor.user();
 const isUserLogged = () => !!getUser();
+const IS_LOADING_STRING = "isLoading";
+
+Template.mainContainer.onCreated(function mainContainerOnCreated() {
+  this.state = new ReactiveDict();
+
+  const handler = Meteor.subscribe("tasks");
+  Tracker.autorun(() => {
+    this.state.set(IS_LOADING_STRING, !handler.ready());
+  });
+});
 
 Template.mainContainer.helpers({
+  isUserLogged() {
+    return isUserLogged();
+  },
   getUser() {
     return getUser();
+  },
+  isLoading() {
+    const instance = Template.instance();
+    return instance.state.get(IS_LOADING_STRING);
   },
 });
 
@@ -21,14 +40,17 @@ Template.mainContainer.events({
 });
 
 Template.roomContainer.helpers({
-  currentRoom() {
-    // return Session.get("room") || false;
-  },
   rooms() {
     if (!isUserLogged()) {
       return [];
     }
     return RoomsCollection.find({});
+  },
+});
+
+Template.room.helpers({
+  currentRoom() {
+    // return Session.get("room") || false;
   },
   messages() {
     if (!isUserLogged()) {
@@ -36,21 +58,18 @@ Template.roomContainer.helpers({
     }
     return MessagesCollection.find({ room: currentRoom() });
   },
-  authorClass() {
-    if (/* auteur du message = moimême */ 1 == getUser().username) {
-      return " mine";
-    } else {
-      return "";
-    }
-  },
-  isUserLogged() {
-    return isUserLogged();
-  },
 });
 
 Template.rooms.helpers({
   availableRooms() {
     return RoomsCollection.find({});
+  },
+  authorClass() {
+    if (/* auteur du message == */ getUser().username) {
+      return " mine";
+    } else {
+      return "";
+    }
   },
 });
 
