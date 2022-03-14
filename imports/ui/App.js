@@ -1,4 +1,6 @@
 import { Template } from "meteor/templating";
+import { RoomsCollection } from "../db/RoomsCollection";
+import { MessagesCollection } from "../db/MessagesCollection";
 
 import "./Login.js";
 import "./App.html";
@@ -7,6 +9,18 @@ const getUser = () => Meteor.user();
 const isUserLogged = () => !!getUser();
 
 Template.mainContainer.helpers({
+  getUser() {
+    return getUser();
+  },
+});
+
+Template.mainContainer.events({
+  "click .user"() {
+    Meteor.logout();
+  },
+});
+
+Template.roomContainer.helpers({
   currentRoom() {
     // return Session.get("room") || false;
   },

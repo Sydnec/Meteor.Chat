@@ -3,7 +3,9 @@
 </body>
 
 <template name="mainContainer">
-  {{#if isUserLogged}} {{> roomContainer}} {{else}}
+  {{#if isUserLogged}}
+  <div class="user">{{getUser.username}} 🚪</div>
+  {{> roomContainer}} {{else}}
   <p>Please sign in to join the chat.</p>
   {{> login}}
 </template>
