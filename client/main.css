@@ -100,7 +100,7 @@ body {
 }
 .message-form input {
   display: inline-block;
-  width: 85%;
+  width: 75%;
   height: 2em;
   margin-top: 7px;
 }
